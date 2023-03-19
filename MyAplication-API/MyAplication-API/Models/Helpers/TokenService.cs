@@ -20,9 +20,9 @@ namespace MyAplication_API.Models.Helpers
         {
             Claim[] claims = new Claim[]
             {
-                new Claim("username", usuarioDto.nom_usuaario),
+                new Claim("username", usuarioDto.nom_usuarios),
                 new Claim("role", admin ? "ADMIN": "User"),
-                new Claim ("cod", usuarioDto.cod_usuario),
+                new Claim ("cod", usuarioDto.cod_usuarios),
             };
             var chave = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_config["Security:CypherKey"]));

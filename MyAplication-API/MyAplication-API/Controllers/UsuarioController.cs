@@ -15,12 +15,13 @@ namespace MyAplication_API.Controllers
         {
             _context = context;
         }
-        [Authorize]
+       [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<UsuarioDto>> Get()
         {
             var readDto = _context.Usuarios;
             return Ok(readDto);
         }
+        
     }
 }

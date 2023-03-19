@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentResults;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.WebEncoders.Testing;
 using MyAplication_API.Models.DTO;
 using MyAplication_API.Models.Helpers;
+using MyAplication_API.Models.Request;
 using MyAplication_API.Models.Response;
 using MyAplication_API.Services.Interface;
 
@@ -10,10 +13,19 @@ namespace MyAplication_API.Services
     public class LoginServices : ILoginServices
     {
         private readonly TokenService _tokenService;
-        public LoginServices(TokenService tokenService)
+        //private readonly ILoginServices _loginRequest;
+        //private readonly IUsuariosServices _usariosServices;
+
+        public LoginServices(TokenService tokenService 
+            //ILoginServices loginRequest, 
+            //IUsuariosServices usuariosServices
+            )
         {
 
+
             _tokenService = tokenService;
+            //_usariosServices = usuariosServices;
+            //_loginRequest = loginRequest;
         }
 
         public JwtResponse Login()
@@ -25,9 +37,9 @@ namespace MyAplication_API.Services
 
             var let = _tokenService.CreateToken(new UsuarioDto()
             {
-                cod_usuario = "teste",
-                nom_usuaario = "teste",
-                text_email = "teste",
+                cod_usuarios = "teste",
+                nom_usuarios = "teste",
+                txt_email = "teste",
                 txt_senha = "teste",
                 txt_troca_senha = "teste"
             }, true);
@@ -41,5 +53,47 @@ namespace MyAplication_API.Services
             };
             return response;
         }
+
+        //public Result Validated(string Cod_user, string Password)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        //public Result validated(string user, string password)
+        //{
+        //    var retorno = _loginrequest.validated(cod_user, password);
+        //    if (retorno == null)
+        //    {
+        //        var luser = _usariosservices.getusuarios(cod_user);
+        //        var perfilinfo = _usariosservices.getusuariocod(cod_usuarios);
+
+
+        //    }
+
+        //}
+        //public Result Validated(string cod_user, string password)
+        //{
+        //    var user = _loginRequest.GetByCodUser(cod_user);
+
+        //    if (user == null)
+        //    {
+        //        return Result.Failure("User not found.");
+        //    }
+
+        //    if (user.Password != password)
+        //    {
+        //        return Result.Failure("Invalid password.");
+        //    }
+
+        //    // Login successful
+        //    var dto = new LoginResponseDto
+        //    {
+        //        Id = user.Id,
+        //        Role = user.Role,
+        //        Email = user.Email
+        //    };
+        //    return Result.Success(dto);
+        //}
+
     }
 }

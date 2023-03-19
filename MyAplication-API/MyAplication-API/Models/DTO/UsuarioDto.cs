@@ -2,10 +2,10 @@
 {
     public class UsuarioDto
     {
-        public string cod_usuario { get; set; }
-        public string nom_usuaario   { get; set;}
+        public string cod_usuarios { get; set; }
+        public string nom_usuarios   { get; set;}
         public string txt_senha { get; set;}
-        public string text_email { get; set;}
+        public string txt_email { get; set;}
         public string txt_troca_senha { get; set; }
     }
 }

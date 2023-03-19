@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http.HttpResults;
 using MyAplication_API.Models;
 using MyAplication_API.Models.DTO;
 using MyAplication_API.Services.Interface;
@@ -7,18 +8,23 @@ namespace MyAplication_API.Services
 {
     public class UsuasriosServices : IUsuariosServices
     {
-        private readonly AplicationContext _context;
-        private readonly IMapper _mapper;
+        private readonly IUsuariosServices _context;
 
-        public UsuasriosServices(AplicationContext context, IMapper mapper)
+        public UsuasriosServices(IUsuariosServices context)
         {
             _context = context;
-            _mapper = mapper;
+
         }
-    
-        public IEnumerable<UsuarioDto> GetUsuarioDtos()
+
+        public IEnumerable<string> GetUsuarioCod(string cod_usuarios)
         {
-            throw new NotImplementedException();
+            return _context.GetUsuarioCod(cod_usuarios);
+        }
+
+        public UsuarioDto GetUsuarios(string cod_usuarios)
+        {
+            return _context.GetUsuarios(cod_usuarios);
+
         }
     }
 }

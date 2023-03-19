@@ -4,6 +4,8 @@ namespace MyAplication_API.Services.Interface
 {
     public interface IUsuariosServices
     {
-        IEnumerable<UsuarioDto>GetUsuarioDtos();
+        public UsuarioDto GetUsuarios(string cod_usuarioss);
+
+        public IEnumerable<string> GetUsuarioCod(string cod_usuarios);
     }
 }
