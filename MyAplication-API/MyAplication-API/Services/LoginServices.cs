@@ -1,31 +1,30 @@
 ﻿using FluentResults;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.WebEncoders.Testing;
+using MyAplication_API.Models;
 using MyAplication_API.Models.DTO;
 using MyAplication_API.Models.Helpers;
 using MyAplication_API.Models.Request;
 using MyAplication_API.Models.Response;
 using MyAplication_API.Services.Interface;
+using System.Text.Json;
 
 namespace MyAplication_API.Services
 {
     public class LoginServices : ILoginServices
     {
         private readonly TokenService _tokenService;
-        //private readonly ILoginServices _loginRequest;
-        //private readonly IUsuariosServices _usariosServices;
+        private readonly AplicationContext _usariosServices;
 
-        public LoginServices(TokenService tokenService 
-            //ILoginServices loginRequest, 
-            //IUsuariosServices usuariosServices
+        public LoginServices(
+            TokenService tokenService,
+            AplicationContext usuariosServices
             )
         {
-
-
             _tokenService = tokenService;
-            //_usariosServices = usuariosServices;
-            //_loginRequest = loginRequest;
+            _usariosServices = usuariosServices;
         }
 
         public JwtResponse Login()
@@ -54,46 +53,35 @@ namespace MyAplication_API.Services
             return response;
         }
 
-        //public Result Validated(string Cod_user, string Password)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public Result validated(string user, string password)
-        //{
-        //    var retorno = _loginrequest.validated(cod_user, password);
-        //    if (retorno == null)
-        //    {
-        //        var luser = _usariosservices.getusuarios(cod_user);
-        //        var perfilinfo = _usariosservices.getusuariocod(cod_usuarios);
 
 
-        //    }
+        public async Task<string> Validated(string Cod_user, string password)
+        {
 
-        //}
-        //public Result Validated(string cod_user, string password)
-        //{
-        //    var user = _loginRequest.GetByCodUser(cod_user);
+            var luser = await _usariosServices.Usuarios.FirstOrDefaultAsync(u=> u.cod_usuarios == Cod_user && u.txt_senha == password);
+            if (luser != null)
+            {
+                var admin = false;
+                if (luser.role == "Admin")
+                {
+                    admin = true;
 
-        //    if (user == null)
-        //    {
-        //        return Result.Failure("User not found.");
-        //    }
+                }
+                var token = _tokenService.CreateToken(luser, admin);
+                var jwtResponse = new JwtResponse
+                {
+                    Name = luser.nom_usuarios,
+                    Email = luser.txt_email,
+                    Admin = admin,
+                    Token = token,
+                };
+                String serial = JsonSerializer.Serialize(jwtResponse);
 
-        //    if (user.Password != password)
-        //    {
-        //        return Result.Failure("Invalid password.");
-        //    }
+                return serial;
 
-        //    // Login successful
-        //    var dto = new LoginResponseDto
-        //    {
-        //        Id = user.Id,
-        //        Role = user.Role,
-        //        Email = user.Email
-        //    };
-        //    return Result.Success(dto);
-        //}
+            }
+            return String.Empty;
 
+        }
     }
 }

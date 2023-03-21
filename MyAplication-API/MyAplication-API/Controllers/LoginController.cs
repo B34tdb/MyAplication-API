@@ -24,17 +24,18 @@ namespace MyAplication_API.Controllers
             JwtResponse response = _loginServices.Login();
             return Ok(response);
         }
-        //[AllowAnonymous]
-        //[HttpPost("Login")]
-        //public IActionResult Login(LoginRequest loginRequest)
-        //{
-        //    var user= loginRequest.Cod_User.ToUpper();
-        //    var ret = _loginServices.Validated(user, loginRequest.Password);
-        //    if (ret.IsSuccess)
-        //    {
-        //        return Ok(ret);
-        //    }
-        //    return BadRequest(ret); 
-        //}
+
+        [AllowAnonymous]
+        [HttpPost("Login")]
+        public async Task<ActionResult<string>> Login(LoginRequest loginRequest)
+        {
+            var user = loginRequest.Cod_User.ToUpper();
+            var ret = await _loginServices.Validated(user, loginRequest.Password);
+            if (ret != null)
+            {
+                return Ok(ret);
+            }
+            return BadRequest(ret);
+        }
     }
 }

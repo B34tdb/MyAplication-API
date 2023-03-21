@@ -84,6 +84,7 @@ builder.Services.AddCors(Op =>
 
 builder.Services.AddTransient<TokenService, TokenService>();
 builder.Services.AddTransient<ILoginServices, LoginServices>();
+builder.Services.AddTransient<IUsuariosServices, UsuariosServices>();
 
 
 var app = builder.Build();

@@ -7,5 +7,6 @@
         public string txt_senha { get; set;}
         public string txt_email { get; set;}
         public string txt_troca_senha { get; set; }
+        public string role { get; set; }
     }
 }
